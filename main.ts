@@ -5,9 +5,9 @@ input.onButtonPressed(Button.A, function () {
 function mot () {
     SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
-    speedacc += 5
-    if (speedacc >= 150) {
-        speedacc = 85
+    speedacc += 1
+    if (speedacc >= 99) {
+        speedacc = 35
     }
     lspeed = speedacc
     rspeed = speedacc
@@ -16,7 +16,7 @@ function mot () {
         x = huskylens.readeBox(1, Content1.xCenter)
         y = huskylens.readeBox(1, Content1.yCenter)
         if (x > 90 && x < 180) {
-            rspeed += 5
+            lspeed += 1
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -25,7 +25,7 @@ function mot () {
                 . . . . .
                 `)
         } else if (x > 0 && x < 90) {
-            rspeed += 10
+            lspeed += 3
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -34,7 +34,7 @@ function mot () {
                 . . . . .
                 `)
         } else if (x > 180 && x < 360) {
-            lspeed += 10
+            rspeed += 3
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -43,7 +43,7 @@ function mot () {
                 . . . . .
                 `)
         } else {
-            lspeed += 5
+            rspeed += 2
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -51,6 +51,14 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
+        }
+        if (obj_width < 180 && obj_width > 90) {
+            SuperBit.MotorRunDual(
+            SuperBit.enMotors.M1,
+            0,
+            SuperBit.enMotors.M3,
+            0
+            )
         }
     }
 }
@@ -160,8 +168,8 @@ function siz () {
         SuperBit.RGB_Program().show()
     }
 }
-let obj_width = 0
 let obj_height = 0
+let obj_width = 0
 let y = 0
 let x = 0
 let entmode = 0
@@ -174,7 +182,7 @@ SuperBit.RGB_Program().setBrightness(120)
 basic.showIcon(IconNames.Yes)
 SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
 SuperBit.RGB_Program().show()
-let rootval = 50
+let rootval = 20
 speedacc = rootval
 lspeed = rootval
 rspeed = rootval
