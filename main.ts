@@ -1,7 +1,3 @@
-input.onButtonPressed(Button.A, function () {
-    entmode = 1
-    basic.showString("A")
-})
 function mot () {
     SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
@@ -29,16 +25,24 @@ function mot () {
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                # # . . .
+                # . . . .
                 . . . . .
                 . . . . .
                 `)
-        } else if (x > 180 && x < 360) {
+        } else if (x > 180 && x < 270) {
             rspeed += 3
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                . . . # #
+                . . # # .
+                . . . . .
+                . . . . .
+                `)
+        } else if (x > 270 && x < 360) {
+            basic.showLeds(`
+                . . . . .
+                . . . . .
+                . . . . #
                 . . . . .
                 . . . . .
                 `)
@@ -46,9 +50,9 @@ function mot () {
             rspeed += 2
             basic.showLeds(`
                 . . . . .
-                . . . . .
-                . . # # .
-                . . . . .
+                . . # . .
+                . # # # .
+                . . # . .
                 . . . . .
                 `)
         }
@@ -62,10 +66,6 @@ function mot () {
         }
     }
 }
-input.onButtonPressed(Button.AB, function () {
-    entmode = 3
-    basic.showString("C")
-})
 function sif () {
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
@@ -114,10 +114,6 @@ function sif () {
             `)
     }
 }
-input.onButtonPressed(Button.B, function () {
-    entmode = 2
-    basic.showString("B")
-})
 function siz () {
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
@@ -172,10 +168,10 @@ let obj_height = 0
 let obj_width = 0
 let y = 0
 let x = 0
-let entmode = 0
 let rspeed = 0
 let lspeed = 0
 let speedacc = 0
+let entmode = 0
 huskylens.initI2c()
 huskylens.initMode(protocolAlgorithm.ALGORITHM_OBJECT_TRACKING)
 SuperBit.RGB_Program().setBrightness(120)
@@ -187,13 +183,29 @@ speedacc = rootval
 lspeed = rootval
 rspeed = rootval
 basic.forever(function () {
-    while (entmode == 1) {
-        siz()
-    }
-    while (entmode == 2) {
-        sif()
-    }
-    while (entmode == 3) {
-        mot()
+    if (input.buttonIsPressed(Button.A)) {
+        basic.showString("A")
+        if (input.buttonIsPressed(Button.A)) {
+            entmode = 1
+            while (entmode == 1) {
+                siz()
+            }
+        }
+    } else if (input.buttonIsPressed(Button.B)) {
+        basic.showString("B")
+        if (input.buttonIsPressed(Button.B)) {
+            entmode = 2
+            while (entmode == 2) {
+                sif()
+            }
+        }
+    } else if (input.buttonIsPressed(Button.AB)) {
+        basic.showString("C")
+        entmode = 3
+        while (entmode == 3) {
+            mot()
+        }
+    } else {
+        basic.showString("Hi!")
     }
 })
