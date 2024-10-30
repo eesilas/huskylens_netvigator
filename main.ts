@@ -9,49 +9,49 @@ function linefollow () {
                 y1 = huskylens.readeArrow(1, Content2.yOrigin)
                 x2 = huskylens.readeArrow(1, Content2.xTarget)
                 y2 = huskylens.readeArrow(1, Content2.yTarget)
-            }
-            if (x1 > x2 && y1 > y2) {
-                SuperBit.MotorRunDual(
-                SuperBit.enMotors.M1,
-                70,
-                SuperBit.enMotors.M3,
-                50
-                )
-                basic.showLeds(`
-                    # # # . .
-                    # # . . .
-                    # . # . .
-                    . . . # .
-                    . . . . #
-                    `)
-            } else if (x1 <= x2 && y1 <= y2) {
-                SuperBit.MotorRunDual(
-                SuperBit.enMotors.M1,
-                50,
-                SuperBit.enMotors.M3,
-                70
-                )
-                basic.showLeds(`
-                    . . # # #
-                    . . . # #
-                    . . # . #
-                    . # . . .
-                    # . . . .
-                    `)
-            } else {
-                SuperBit.MotorRunDual(
-                SuperBit.enMotors.M1,
-                50,
-                SuperBit.enMotors.M3,
-                50
-                )
-                basic.showLeds(`
-                    . . # . .
-                    . # # # .
-                    # . # . #
-                    . . # . .
-                    . . # . .
-                    `)
+                if (x1 > x2 && y1 > y2) {
+                    SuperBit.MotorRunDual(
+                    SuperBit.enMotors.M1,
+                    70,
+                    SuperBit.enMotors.M3,
+                    50
+                    )
+                    basic.showLeds(`
+                        # # # . .
+                        # # . . .
+                        # . # . .
+                        . . . # .
+                        . . . . #
+                        `)
+                } else if (x1 <= x2 && y1 <= y2) {
+                    SuperBit.MotorRunDual(
+                    SuperBit.enMotors.M1,
+                    50,
+                    SuperBit.enMotors.M3,
+                    70
+                    )
+                    basic.showLeds(`
+                        . . # # #
+                        . . . # #
+                        . . # . #
+                        . # . . .
+                        # . . . .
+                        `)
+                } else {
+                    SuperBit.MotorRunDual(
+                    SuperBit.enMotors.M1,
+                    50,
+                    SuperBit.enMotors.M3,
+                    50
+                    )
+                    basic.showLeds(`
+                        . . # . .
+                        . # # # .
+                        # . # . #
+                        . . # . .
+                        . . # . .
+                        `)
+                }
             }
         }
     }
@@ -67,6 +67,9 @@ input.onButtonPressed(Button.A, function () {
         # . . . #
         `)
 })
+function qcode () {
+    huskylens.initMode(protocolAlgorithm.ALGORITHM_TAG_RECOGNITION)
+}
 function mot () {
     huskylens.request()
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
