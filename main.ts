@@ -1,62 +1,54 @@
 function mot () {
-    SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
+    huskylens.request()
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
-    speedacc += 1
-    if (speedacc >= 99) {
-        speedacc = 35
-    }
+    SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
     lspeed = speedacc
     rspeed = speedacc
-    huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         x = huskylens.readeBox(1, Content1.xCenter)
         y = huskylens.readeBox(1, Content1.yCenter)
-        if (x > 90 && x < 180) {
-            lspeed += 1
+        if (x > 0 && x < 180) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                . # # . .
+                # # . . .
                 . . . . .
                 . . . . .
                 `)
-        } else if (x > 0 && x < 90) {
-            lspeed += 3
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc + 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
+        } else if (x > 181 && x < 360) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                # . . . .
+                . . . # #
                 . . . . .
                 . . . . .
                 `)
-        } else if (x > 180 && x < 270) {
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc + 20)
+        } else if (x > 170 && x < 190) {
             rspeed += 3
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                . . # # .
+                . . # . .
                 . . . . .
                 . . . . .
                 `)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc - 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc - 20)
         } else if (x > 270 && x < 360) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
-                . . . . #
+                . . # . .
                 . . . . .
                 . . . . .
                 `)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, -70)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, -70)
         } else {
-            rspeed += 2
-            basic.showLeds(`
-                . . . . .
-                . . # . .
-                . # # # .
-                . . # . .
-                . . . . .
-                `)
-        }
-        if (obj_width < 180 && obj_width > 90) {
             SuperBit.MotorRunDual(
             SuperBit.enMotors.M1,
             0,
@@ -66,6 +58,19 @@ function mot () {
         }
     }
 }
+function inc_speed () {
+    speedacc += 1
+    if (speedacc >= 99) {
+        speedacc = 35
+    }
+}
+input.onButtonPressed(Button.AB, function () {
+    basic.showString("C")
+    entmode = 3
+    while (entmode == 3) {
+        mot()
+    }
+})
 function sif () {
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
@@ -79,7 +84,7 @@ function sif () {
                 . . . . .
                 . . . . .
                 `)
-        } else if (x > 0 && x < 90) {
+        } else if (x > 45 && x < 90) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -87,7 +92,23 @@ function sif () {
                 . . . . .
                 . . . . .
                 `)
-        } else if (x > 180 && x < 360) {
+        } else if (x > 5 && x < 45) {
+            basic.showLeds(`
+                . . . . .
+                . . . . .
+                # . . . .
+                . . . . .
+                . . . . .
+                `)
+        } else if (x > 285 && x < 360) {
+            basic.showLeds(`
+                . . . . .
+                . . . . .
+                . . . . #
+                . . . . .
+                . . . . .
+                `)
+        } else if (x > 285 && x < 300) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -95,7 +116,15 @@ function sif () {
                 . . . . .
                 . . . . .
                 `)
-        } else {
+        } else if (x > 220 && x < 285) {
+            basic.showLeds(`
+                . . . . .
+                . . . . .
+                . . . # .
+                . . . . .
+                . . . . .
+                `)
+        } else if (x > 180 && x < 220) {
             basic.showLeds(`
                 . . . . .
                 . . . . .
@@ -103,15 +132,15 @@ function sif () {
                 . . . . .
                 . . . . .
                 `)
+        } else {
+            basic.showLeds(`
+                . . . . .
+                . . . . .
+                . . # . .
+                . . . . .
+                . . . . .
+                `)
         }
-    } else {
-        basic.showLeds(`
-            . . . . .
-            . . . . .
-            . . # . .
-            . . . . .
-            . . . . .
-            `)
     }
 }
 function siz () {
@@ -128,9 +157,9 @@ function siz () {
         if (obj_width <= 45 && obj_width > 22) {
             basic.showLeds(`
                 . . . . .
-                . . . . .
-                . # # . .
-                . # # . .
+                . . # . .
+                . # # # .
+                . . # . .
                 . . . . .
                 `)
         } else if (obj_width < 90 && obj_width > 45) {
@@ -158,39 +187,6 @@ function siz () {
                 . . . . .
                 `)
         }
-    } else {
-        basic.showIcon(IconNames.Confused)
-        SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Red))
-        SuperBit.RGB_Program().show()
-    }
-}
-let obj_height = 0
-let obj_width = 0
-let y = 0
-let x = 0
-let rspeed = 0
-let lspeed = 0
-let speedacc = 0
-let entmode = 0
-huskylens.initI2c()
-huskylens.initMode(protocolAlgorithm.ALGORITHM_OBJECT_TRACKING)
-SuperBit.RGB_Program().setBrightness(120)
-basic.showIcon(IconNames.Yes)
-SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
-SuperBit.RGB_Program().show()
-let rootval = 20
-speedacc = rootval
-lspeed = rootval
-rspeed = rootval
-basic.forever(function () {
-    if (input.buttonIsPressed(Button.A)) {
-        basic.showString("A")
-        if (input.buttonIsPressed(Button.A)) {
-            entmode = 1
-            while (entmode == 1) {
-                siz()
-            }
-        }
     } else if (input.buttonIsPressed(Button.B)) {
         basic.showString("B")
         if (input.buttonIsPressed(Button.B)) {
@@ -199,13 +195,51 @@ basic.forever(function () {
                 sif()
             }
         }
-    } else if (input.buttonIsPressed(Button.AB)) {
-        basic.showString("C")
-        entmode = 3
-        while (entmode == 3) {
-            mot()
+    } else {
+        basic.showIcon(IconNames.Angry)
+        SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Red))
+        SuperBit.RGB_Program().show()
+    }
+}
+let obj_width = 0
+let obj_height = 0
+let y = 0
+let x = 0
+let rspeed = 0
+let lspeed = 0
+let speedacc = 0
+let entmode = 0
+entmode = 0
+huskylens.initI2c()
+huskylens.initMode(protocolAlgorithm.ALGORITHM_OBJECT_TRACKING)
+SuperBit.RGB_Program().setBrightness(120)
+basic.showIcon(IconNames.Yes)
+SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
+SuperBit.RGB_Program().show()
+let rootval = 50
+speedacc = rootval
+lspeed = rootval
+rspeed = rootval
+basic.forever(function () {
+    if (input.buttonIsPressed(Button.A)) {
+        basic.showString("A")
+        if (input.buttonIsPressed(Button.A)) {
+            basic.showString("A+A")
+            entmode = 1
+            while (entmode == 1) {
+                siz()
+            }
+        }
+    } else if (input.buttonIsPressed(Button.B)) {
+        basic.showString("B")
+        if (input.buttonIsPressed(Button.B)) {
+            basic.showString("B+B")
+            entmode = 2
+            while (entmode == 2) {
+                sif()
+            }
         }
     } else {
-        basic.showString("Hi!")
+        basic.showString(":)")
     }
 })
