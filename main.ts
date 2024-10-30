@@ -1,14 +1,79 @@
+function linefollow () {
+    huskylens.initMode(protocolAlgorithm.ALGORITHM_LINE_TRACKING)
+    if (entmode == 4) {
+        huskylens.request()
+        if (huskylens.isAppear_s(HUSKYLENSResultType_t.HUSKYLENSResultArrow)) {
+            arrow = huskylens.readArrow_s(Content4.ID)
+            if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultArrow)) {
+                x1 = huskylens.readeArrow(1, Content2.xOrigin)
+                y1 = huskylens.readeArrow(1, Content2.yOrigin)
+                x2 = huskylens.readeArrow(1, Content2.xTarget)
+                y2 = huskylens.readeArrow(1, Content2.yTarget)
+            }
+            if (x1 > x2 && y1 > y2) {
+                SuperBit.MotorRunDual(
+                SuperBit.enMotors.M1,
+                70,
+                SuperBit.enMotors.M3,
+                50
+                )
+                basic.showLeds(`
+                    # # # . .
+                    # # . . .
+                    # . # . .
+                    . . . # .
+                    . . . . #
+                    `)
+            } else if (x1 <= x2 && y1 <= y2) {
+                SuperBit.MotorRunDual(
+                SuperBit.enMotors.M1,
+                50,
+                SuperBit.enMotors.M3,
+                70
+                )
+                basic.showLeds(`
+                    . . # # #
+                    . . . # #
+                    . . # . #
+                    . # . . .
+                    # . . . .
+                    `)
+            } else {
+                SuperBit.MotorRunDual(
+                SuperBit.enMotors.M1,
+                50,
+                SuperBit.enMotors.M3,
+                50
+                )
+                basic.showLeds(`
+                    . . # . .
+                    . # # # .
+                    # . # . #
+                    . . # . .
+                    . . # . .
+                    `)
+            }
+        }
+    }
+}
 input.onButtonPressed(Button.A, function () {
     SuperBit.MotorStopAll()
     basic.pause(5000)
+    basic.showLeds(`
+        . . # . .
+        . # . # .
+        # # . # #
+        # # # # #
+        # . . . #
+        `)
 })
 function mot () {
     huskylens.request()
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
     SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
     basic.pause(1000)
-    SuperBit.MotorRun(SuperBit.enMotors.M3, 50)
-    SuperBit.MotorRun(SuperBit.enMotors.M1, 50)
+    SuperBit.MotorRun(SuperBit.enMotors.M3, 55)
+    SuperBit.MotorRun(SuperBit.enMotors.M1, 55)
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         x = huskylens.readeBox(1, Content1.xCenter)
         y = huskylens.readeBox(1, Content1.yCenter)
@@ -22,8 +87,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, 70)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, 55)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, 45)
         } else if (x > 181 && x < 360) {
             basic.showLeds(`
                 . . . . .
@@ -32,8 +97,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, 70)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, 45)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, 55)
         } else if (x > 170 && x < 190) {
             basic.showLeds(`
                 . . . . .
@@ -42,9 +107,9 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
-        } else if (180 < huskylens.readeBox(1, Content1.width)) {
+            SuperBit.MotorRun(SuperBit.enMotors.M1, 45)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, 45)
+        } else if (128 < huskylens.readeBox(1, Content1.width)) {
             basic.showLeds(`
                 . . . . .
                 . # # # .
@@ -55,7 +120,7 @@ function mot () {
             SuperBit.MotorRun(SuperBit.enMotors.M1, 0)
             SuperBit.MotorRun(SuperBit.enMotors.M3, 0)
         } else {
-        	
+            basic.showIcon(IconNames.Cow)
         }
     }
 }
@@ -136,6 +201,17 @@ function sif () {
         }
     }
 }
+input.onButtonPressed(Button.B, function () {
+    entmode = 4
+    linefollow()
+    basic.showLeds(`
+        # . . . .
+        # . . . .
+        # # # # .
+        # . . # .
+        # # # . .
+        `)
+})
 function siz () {
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
@@ -198,8 +274,14 @@ let obj_height = 0
 let obj_width = 0
 let y = 0
 let x = 0
+let y2 = 0
+let x2 = 0
+let y1 = 0
+let x1 = 0
+let arrow = 0
 let speedacc = 0
 let entmode = 0
+basic.showIcon(IconNames.Giraffe)
 let range = SuperBit.RGB_Program().range(0, 3)
 SuperBit.RGB_Program().showRainbow(1, 360)
 SuperBit.RGB_Program().show()
@@ -207,7 +289,6 @@ entmode = 0
 huskylens.initI2c()
 huskylens.initMode(protocolAlgorithm.ALGORITHM_OBJECT_TRACKING)
 SuperBit.RGB_Program().setBrightness(120)
-basic.showIcon(IconNames.Angry)
 SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
 SuperBit.RGB_Program().show()
 speedacc = 137
@@ -233,8 +314,12 @@ basic.forever(function () {
     } else if (entmode == 3) {
         basic.showString("C ... C")
         entmode = 3
-        mot()
+        basic.clearScreen()
+        while (entmode == 3) {
+            mot()
+        }
     } else {
         basic.showIcon(IconNames.Asleep)
+        SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
     }
 })
