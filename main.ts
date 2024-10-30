@@ -15,8 +15,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc + 20)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc + 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
         } else if (x > 181 && x < 360) {
             basic.showLeds(`
                 . . . . .
@@ -25,8 +25,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc + 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc + 20)
         } else if (x > 170 && x < 190) {
             rspeed += 3
             basic.showLeds(`
@@ -36,8 +36,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc - 20)
             SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc - 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc - 20)
         } else if (x > 270 && x < 360) {
             basic.showLeds(`
                 . . . . .
@@ -46,7 +46,7 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, -70)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, -70)
             SuperBit.MotorRun(SuperBit.enMotors.M3, -70)
         } else {
             SuperBit.MotorRunDual(
@@ -216,7 +216,7 @@ SuperBit.RGB_Program().setBrightness(120)
 basic.showIcon(IconNames.Yes)
 SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
 SuperBit.RGB_Program().show()
-let rootval = 50
+let rootval = 65
 speedacc = rootval
 lspeed = rootval
 rspeed = rootval
