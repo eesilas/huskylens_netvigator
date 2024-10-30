@@ -2,8 +2,9 @@ function mot () {
     huskylens.request()
     SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
     SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
-    lspeed = speedacc
-    rspeed = speedacc
+    basic.pause(500)
+    speedacc = speedacc - 30
+    speedacc = speedacc - 30
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
         x = huskylens.readeBox(1, Content1.xCenter)
         y = huskylens.readeBox(1, Content1.yCenter)
@@ -15,7 +16,7 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc + 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc + 42)
             SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc)
         } else if (x > 181 && x < 360) {
             basic.showLeds(`
@@ -26,7 +27,7 @@ function mot () {
                 . . . . .
                 `)
             SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc + 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc + 42)
         } else if (x > 170 && x < 190) {
             rspeed += 3
             basic.showLeds(`
@@ -36,8 +37,8 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc - 20)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc - 20)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, speedacc - 42)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, speedacc - 42)
         } else if (x > 270 && x < 360) {
             basic.showLeds(`
                 . . . . .
@@ -46,15 +47,17 @@ function mot () {
                 . . . . .
                 . . . . .
                 `)
-            SuperBit.MotorRun(SuperBit.enMotors.M1, -70)
-            SuperBit.MotorRun(SuperBit.enMotors.M3, -70)
+            SuperBit.MotorRun(SuperBit.enMotors.M1, 24)
+            SuperBit.MotorRun(SuperBit.enMotors.M3, 24)
         } else {
-            SuperBit.MotorRunDual(
-            SuperBit.enMotors.M1,
-            0,
-            SuperBit.enMotors.M3,
-            0
-            )
+            if (input.buttonIsPressed(Button.A)) {
+                SuperBit.MotorRunDual(
+                SuperBit.enMotors.M1,
+                0,
+                SuperBit.enMotors.M3,
+                0
+                )
+            }
         }
     }
 }
@@ -65,7 +68,7 @@ function inc_speed () {
     }
 }
 input.onButtonPressed(Button.AB, function () {
-    basic.showString("C")
+    basic.showString("C ... C")
     entmode = 3
     while (entmode == 3) {
         mot()
@@ -205,8 +208,6 @@ let obj_width = 0
 let obj_height = 0
 let y = 0
 let x = 0
-let rspeed = 0
-let lspeed = 0
 let speedacc = 0
 let entmode = 0
 entmode = 0
@@ -216,10 +217,10 @@ SuperBit.RGB_Program().setBrightness(120)
 basic.showIcon(IconNames.Yes)
 SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
 SuperBit.RGB_Program().show()
-let rootval = 65
+let rootval = 80
 speedacc = rootval
-lspeed = rootval
-rspeed = rootval
+let lspeed = rootval
+let rspeed = rootval
 basic.forever(function () {
     if (input.buttonIsPressed(Button.A)) {
         basic.showString("A")
