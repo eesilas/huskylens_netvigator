@@ -1,4 +1,4 @@
-function linefollow () {
+function line () {
     huskylens.initMode(protocolAlgorithm.ALGORITHM_LINE_TRACKING)
     if (entmode == 4) {
         huskylens.request()
@@ -12,9 +12,9 @@ function linefollow () {
                 if (x1 > x2 && y1 > y2) {
                     SuperBit.MotorRunDual(
                     SuperBit.enMotors.M1,
-                    70,
+                    90,
                     SuperBit.enMotors.M3,
-                    50
+                    78
                     )
                     basic.showLeds(`
                         # # # . .
@@ -26,9 +26,9 @@ function linefollow () {
                 } else if (x1 <= x2 && y1 <= y2) {
                     SuperBit.MotorRunDual(
                     SuperBit.enMotors.M1,
-                    50,
+                    78,
                     SuperBit.enMotors.M3,
-                    70
+                    90
                     )
                     basic.showLeds(`
                         . . # # #
@@ -40,9 +40,9 @@ function linefollow () {
                 } else {
                     SuperBit.MotorRunDual(
                     SuperBit.enMotors.M1,
-                    50,
+                    80,
                     SuperBit.enMotors.M3,
-                    50
+                    80
                     )
                     basic.showLeds(`
                         . . # . .
@@ -206,10 +206,9 @@ function sif () {
 }
 input.onButtonPressed(Button.B, function () {
     entmode = 4
-    linefollow()
     basic.showLeds(`
-        # . . . .
-        # . . . .
+        # # . . .
+        # . # . .
         # # # # .
         # . . # .
         # # # . .
@@ -320,6 +319,17 @@ basic.forever(function () {
         basic.clearScreen()
         while (entmode == 3) {
             mot()
+        }
+    } else if (entmode == 4) {
+        entmode = 4
+        while (entmode == 4) {
+            basic.showLeds(`
+                # . . . .
+                # . . . .
+                # # # # .
+                # . . # .
+                # # # . .
+                `)
         }
     } else {
         basic.showIcon(IconNames.Asleep)
