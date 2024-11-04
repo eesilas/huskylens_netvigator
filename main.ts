@@ -9,7 +9,7 @@ radio.onReceivedNumber(function (receivedNumber) {
     } else if (receivedNumber == 2) {
         SuperBit.MotorRunDual(
         SuperBit.enMotors.M1,
-        28,
+        30,
         SuperBit.enMotors.M3,
         35
         )
@@ -18,7 +18,16 @@ radio.onReceivedNumber(function (receivedNumber) {
         SuperBit.enMotors.M1,
         35,
         SuperBit.enMotors.M3,
-        28
+        30
+        )
+    } else if (receivedNumber == 7) {
+        cal()
+    } else if (receivedNumber == 3) {
+        SuperBit.MotorRunDual(
+        SuperBit.enMotors.M1,
+        -35,
+        SuperBit.enMotors.M3,
+        -35
         )
     } else {
         basic.showLeds(`
@@ -246,6 +255,50 @@ input.onButtonPressed(Button.B, function () {
         # # # . .
         `)
 })
+function cal () {
+    if (receivedNumber == 7) {
+        if (input.buttonIsPressed(Button.A)) {
+            basic.showString("A")
+            if (input.buttonIsPressed(Button.A)) {
+                basic.showString("A+A")
+                entmode = 1
+                while (entmode == 1) {
+                    siz()
+                }
+            }
+        } else if (input.buttonIsPressed(Button.B)) {
+            basic.showString("B")
+            if (input.buttonIsPressed(Button.B)) {
+                basic.showString("B+B")
+                entmode = 2
+                while (entmode == 2) {
+                    sif()
+                }
+            }
+        } else if (entmode == 3) {
+            basic.showString("C ... C")
+            entmode = 3
+            basic.clearScreen()
+            while (entmode == 3) {
+                mot()
+            }
+        } else if (entmode == 4) {
+            entmode = 4
+            while (entmode == 4) {
+                basic.showLeds(`
+                    # . . . .
+                    # . . . .
+                    # # # # .
+                    # . . # .
+                    # # # . .
+                    `)
+            }
+        } else {
+            basic.showIcon(IconNames.Asleep)
+            SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
+        }
+    }
+}
 function siz () {
     huskylens.request()
     if (huskylens.isAppear(1, HUSKYLENSResultType_t.HUSKYLENSResultBlock)) {
@@ -328,44 +381,5 @@ SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
 SuperBit.RGB_Program().show()
 speedacc = 137
 basic.forever(function () {
-    if (input.buttonIsPressed(Button.A)) {
-        basic.showString("A")
-        if (input.buttonIsPressed(Button.A)) {
-            basic.showString("A+A")
-            entmode = 1
-            while (entmode == 1) {
-                siz()
-            }
-        }
-    } else if (input.buttonIsPressed(Button.B)) {
-        basic.showString("B")
-        if (input.buttonIsPressed(Button.B)) {
-            basic.showString("B+B")
-            entmode = 2
-            while (entmode == 2) {
-                sif()
-            }
-        }
-    } else if (entmode == 3) {
-        basic.showString("C ... C")
-        entmode = 3
-        basic.clearScreen()
-        while (entmode == 3) {
-            mot()
-        }
-    } else if (entmode == 4) {
-        entmode = 4
-        while (entmode == 4) {
-            basic.showLeds(`
-                # . . . .
-                # . . . .
-                # # # # .
-                # . . # .
-                # # # . .
-                `)
-        }
-    } else {
-        basic.showIcon(IconNames.Asleep)
-        SuperBit.RGB_Program().showColor(neopixel.colors(NeoPixelColors.Green))
-    }
+	
 })
