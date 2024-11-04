@@ -1,3 +1,35 @@
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 1) {
+        SuperBit.MotorRunDual(
+        SuperBit.enMotors.M1,
+        35,
+        SuperBit.enMotors.M3,
+        35
+        )
+    } else if (receivedNumber == 2) {
+        SuperBit.MotorRunDual(
+        SuperBit.enMotors.M1,
+        28,
+        SuperBit.enMotors.M3,
+        35
+        )
+    } else if (receivedNumber == 4) {
+        SuperBit.MotorRunDual(
+        SuperBit.enMotors.M1,
+        35,
+        SuperBit.enMotors.M3,
+        28
+        )
+    } else {
+        basic.showLeds(`
+            # # # . .
+            # . # . .
+            # # . . .
+            # . # . .
+            # . . # .
+            `)
+    }
+})
 function line () {
     huskylens.initMode(protocolAlgorithm.ALGORITHM_LINE_TRACKING)
     if (entmode == 4) {
@@ -283,6 +315,7 @@ let x1 = 0
 let arrow = 0
 let speedacc = 0
 let entmode = 0
+radio.setGroup(13)
 basic.showIcon(IconNames.Giraffe)
 let range = SuperBit.RGB_Program().range(0, 3)
 SuperBit.RGB_Program().showRainbow(1, 360)
